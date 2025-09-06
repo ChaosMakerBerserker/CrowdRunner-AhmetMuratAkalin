@@ -7,15 +7,17 @@ public class RunnerFollow : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.gameEnded) return; // Oyun bitti, runner durur
+
         if (target == null) return;
 
-        // Yönü hedefe çevir
         Vector3 direction = target.position - transform.position;
-        direction.y = 0; // sadece yatay dön
-        if (direction.sqrMagnitude > 0.01f)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
+        direction.y = 0;
 
-        // İleri hareket
-        transform.position += transform.forward * speed * Time.deltaTime;
+        if (direction.magnitude > 0.1f)
+        {
+            transform.position += direction.normalized * speed * Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 0.2f);
+        }
     }
 }

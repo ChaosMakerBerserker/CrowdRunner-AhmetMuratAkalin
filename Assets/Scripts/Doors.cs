@@ -17,7 +17,7 @@ public class Doors : MonoBehaviour
     {
         UpdateDoorTexts();
     }
-
+// burayı random yapalım Ahmet Murat
     private void UpdateDoorTexts()
     {
         if (rightDoorText != null)

@@ -25,10 +25,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
-        HandleSlide();
-        HandleMovement();
-    }
+{
+    if (GameManager.gameEnded) return; // Oyun bitti, player durur
+    HandleSlide();
+    HandleMovement();
+}
 
     private void HandleMovement()
     {
