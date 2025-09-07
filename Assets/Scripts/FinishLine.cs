@@ -1,17 +1,18 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinishLine : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        // Player’a çarpıldı mı?
         PlayerController player = other.GetComponent<PlayerController>();
         if (player != null)
         {
-            Debug.Log("OYUN BİTTİ! KAZANDIN 🎉");
+            Debug.Log("Level bitti!");
 
-            // GameManager üzerinden oyunu bitir
-            GameManager.EndGame();
+            // Direkt 2. seviyeye geç
+            SceneManager.LoadScene("Level2");
+            Time.timeScale = 1f; // garanti olsun diye ekle
         }
     }
 }

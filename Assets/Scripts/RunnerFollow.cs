@@ -4,20 +4,26 @@ public class RunnerFollow : MonoBehaviour
 {
     public Transform target;
     public float speed = 5f;
+    private Rigidbody rb;
 
-    void Update()
+    void Start()
     {
-        if (GameManager.gameEnded) return; // Oyun bitti, runner durur
+        rb = GetComponent<Rigidbody>();
+    }
 
+    void FixedUpdate()
+    {
         if (target == null) return;
 
-        Vector3 direction = target.position - transform.position;
-        direction.y = 0;
+        Vector3 direction = target.position - rb.position;
+        direction.y = 0; // Sadece yatay düzlemde takip
+        direction.Normalize();
 
-        if (direction.magnitude > 0.1f)
-        {
-            transform.position += direction.normalized * speed * Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 0.2f);
-        }
+        // Rigidbody ile hareket
+        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+
+        // Rotasyonu da Rigidbody ile uygula
+        if (direction != Vector3.zero)
+            rb.MoveRotation(Quaternion.LookRotation(direction));
     }
 }

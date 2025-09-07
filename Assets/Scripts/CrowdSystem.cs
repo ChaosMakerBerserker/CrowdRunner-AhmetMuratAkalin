@@ -8,12 +8,11 @@ public class CrowdSystem : MonoBehaviour
     public Transform target;
 
     [Header("Crowd Settings")]
-    public int crowdCount = 2;      // Başlangıçta 1 player + 1 runner
+    public int crowdCount = 2;
     public float spacing = 1.5f;
 
     void Start()
     {
-        // Başlangıçta runner’ları oluştur
         UpdateRunners();
     }
 
@@ -23,27 +22,32 @@ public class CrowdSystem : MonoBehaviour
         UpdateRunners();
     }
 
+    // Obstacle tarafından runner silmek için
+    public void RemoveCrowd(GameObject runner)
+    {
+        if (runnerParent == null || runner == null) return;
+
+        Destroy(runner); // Runner'ı yok et
+        crowdCount = Mathf.Max(1, crowdCount - 1); // Crowd sayısını güncelle
+    }
+
     private void UpdateRunners()
     {
         if (runnerParent == null || runnerPrefab == null) return;
 
-        // Önce var olan runner’ları temizle
-        foreach (Transform child in runnerParent)
+        // Parent altını temizle
+        for (int i = runnerParent.childCount - 1; i >= 0; i--)
         {
-            Destroy(child.gameObject);
+            Destroy(runnerParent.GetChild(i).gameObject);
         }
 
-        // Yeni runner’ları oluştur
-        for (int i = 0; i < crowdCount - 1; i++) // -1 çünkü player zaten var
+        for (int i = 0; i < crowdCount - 1; i++)
         {
-            GameObject runnerObj = Instantiate(runnerPrefab, runnerParent);
-            runnerObj.transform.localPosition = new Vector3((i % 5) * spacing, 0, -(i / 5) * spacing);
-            runnerObj.SetActive(true);
+            GameObject runner = Instantiate(runnerPrefab, runnerParent);
+            runner.transform.localPosition = new Vector3((i % 5) * spacing, 0, -(i / 5) * spacing);
 
-            // RunnerFollow scriptini al ve hedefi ata
-            RunnerFollow followScript = runnerObj.GetComponent<RunnerFollow>();
-            if (followScript != null)
-                followScript.target = target;
+            RunnerFollow follow = runner.GetComponent<RunnerFollow>();
+            if (follow != null) follow.target = target;
         }
     }
 
