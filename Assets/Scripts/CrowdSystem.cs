@@ -22,13 +22,12 @@ public class CrowdSystem : MonoBehaviour
         UpdateRunners();
     }
 
-    // Obstacle tarafından runner silmek için
     public void RemoveCrowd(GameObject runner)
     {
         if (runnerParent == null || runner == null) return;
 
-        Destroy(runner); // Runner'ı yok et
-        crowdCount = Mathf.Max(1, crowdCount - 1); // Crowd sayısını güncelle
+        Destroy(runner);
+        crowdCount = Mathf.Max(1, crowdCount - 1);
     }
 
     private void UpdateRunners()
@@ -41,13 +40,15 @@ public class CrowdSystem : MonoBehaviour
             Destroy(runnerParent.GetChild(i).gameObject);
         }
 
+        // Runnerları oluştur
         for (int i = 0; i < crowdCount - 1; i++)
         {
             GameObject runner = Instantiate(runnerPrefab, runnerParent);
             runner.transform.localPosition = new Vector3((i % 5) * spacing, 0, -(i / 5) * spacing);
 
             RunnerFollow follow = runner.GetComponent<RunnerFollow>();
-            if (follow != null) follow.target = target;
+            if (follow != null)
+                follow.target = target;
         }
     }
 

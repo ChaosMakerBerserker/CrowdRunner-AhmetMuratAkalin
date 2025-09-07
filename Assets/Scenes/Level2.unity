@@ -42771,6 +42771,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6411279911037939007, guid: c426f5695616c554491711db3deabec7, type: 3}
+      propertyPath: crowdSystem
+      value: 
+      objectReference: {fileID: 1440763364}
     - target: {fileID: 6914785341268560220, guid: c426f5695616c554491711db3deabec7, type: 3}
       propertyPath: m_Name
       value: Obstacle
