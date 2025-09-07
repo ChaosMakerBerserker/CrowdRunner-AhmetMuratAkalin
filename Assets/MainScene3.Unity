@@ -290,6 +290,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20670,6 +20694,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door 8
       objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22262,6 +22310,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 937612911}
     m_Modifications:
+    - target: {fileID: 150270265426141906, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.b
+      value: 0.15294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 150270265426141906, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.g
+      value: 0.17254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 150270265426141906, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.r
+      value: 0.91372555
+      objectReference: {fileID: 0}
     - target: {fileID: 376724368464017545, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -22306,6 +22366,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3931032802433472085, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.b
+      value: 0.13725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931032802433472085, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.g
+      value: 0.15686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931032802433472085, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22330,6 +22450,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 937612911}
     m_Modifications:
+    - target: {fileID: 150270265426141906, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.b
+      value: 0.15294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 150270265426141906, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.g
+      value: 0.16862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 150270265426141906, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9176471
+      objectReference: {fileID: 0}
     - target: {fileID: 376724368464017545, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -22373,6 +22505,54 @@ PrefabInstance:
     - target: {fileID: 1204970940607897618, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: m_Name
       value: Door 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931032802433472085, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.b
+      value: 0.15294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931032802433472085, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.g
+      value: 0.16862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931032802433472085, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44405,15 +44585,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorBonusAmount
-      value: 8
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorBonusAmount
-      value: 8
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorBonusAmount
-      value: 8
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorBonusAmount
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44916,24 +45108,36 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084707572017031540, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorBonusAmount
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorBonusType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorBonusAmount
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorBonusType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorBonusAmount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475273500452304881, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorBonusAmount
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
