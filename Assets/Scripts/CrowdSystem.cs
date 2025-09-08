@@ -1,64 +1,80 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CrowdSystem : MonoBehaviour
 {
     [Header("Settings")]
     public GameObject runnerPrefab;
     public Transform runnerParent;
-    public Transform target;
+    public Transform leader;
 
     [Header("Crowd Settings")]
-    public int crowdCount = 2;
-    public float spacing = 1.5f;
+    public int crowdCount = 10;
+    public float spacing = 0.8f;
+    public float goldenAngle = 137.508f;
+
+    [Header("Map Bounds")]
+    public Vector2 xBounds = new Vector2(-50, 50);
+    public Vector2 zBounds = new Vector2(-50, 50);
+
+    public List<GameObject> runners = new List<GameObject>();
 
     void Start()
     {
-        UpdateRunners();
+        SpawnRunners();
     }
 
-    public void AddCrowd(int amount)
+    void SpawnRunners()
     {
-        crowdCount = Mathf.Max(1, crowdCount + amount);
-        UpdateRunners();
+        for (int i = 0; i < crowdCount; i++)
+        {
+            float angle = i * goldenAngle * Mathf.Deg2Rad;
+            float radius = Mathf.Sqrt(i) * spacing;
+
+            Vector3 pos = new Vector3(radius * Mathf.Cos(angle), 0, radius * Mathf.Sin(angle));
+            pos += runnerParent.position;
+
+            pos.x = Mathf.Clamp(pos.x, xBounds.x, xBounds.y);
+            pos.z = Mathf.Clamp(pos.z, zBounds.x, zBounds.y);
+
+            GameObject runner = Instantiate(runnerPrefab, pos, Quaternion.identity, runnerParent);
+            runners.Add(runner);
+
+            RunnerFollow follow = runner.GetComponent<RunnerFollow>();
+            if (follow != null)
+            {
+                follow.target = i == 0 ? leader : runners[i - 1].transform;
+            }
+        }
+    }
+
+    // -----------------------
+    // Önceki scriptlerin kullandığı metotlar
+    // -----------------------
+
+    public void AddCrowd(GameObject newRunner)
+    {
+        runners.Add(newRunner);
+        newRunner.transform.parent = runnerParent;
     }
 
     public void RemoveCrowd(GameObject runner)
     {
-        if (runnerParent == null || runner == null) return;
-
-        Destroy(runner);
-        crowdCount = Mathf.Max(1, crowdCount - 1);
-    }
-
-    private void UpdateRunners()
-    {
-        if (runnerParent == null || runnerPrefab == null) return;
-
-        // Parent altını temizle
-        for (int i = runnerParent.childCount - 1; i >= 0; i--)
+        if (runners.Contains(runner))
         {
-            Destroy(runnerParent.GetChild(i).gameObject);
+            runners.Remove(runner);
+            Destroy(runner);
         }
-
-        // Runnerları oluştur
-        for (int i = 0; i < crowdCount - 1; i++)
-        {
-            GameObject runner = Instantiate(runnerPrefab, runnerParent);
-            runner.transform.localPosition = new Vector3((i % 5) * spacing, 0, -(i / 5) * spacing);
-
-            RunnerFollow follow = runner.GetComponent<RunnerFollow>();
-            if (follow != null)
-                follow.target = target;
-        }
-    }
-
-    public Vector3 GetTargetPosition()
-    {
-        return target != null ? target.position : runnerParent.position;
     }
 
     public int GetCrowdCount()
     {
-        return crowdCount;
+        return runners.Count;
+    }
+
+    public Vector3 GetTargetPosition(int index)
+    {
+        if (index < 0 || index >= runners.Count) return leader.position;
+        return runners[index].transform.position;
     }
 }

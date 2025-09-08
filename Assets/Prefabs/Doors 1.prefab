@@ -70,10 +70,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightDoorText: {fileID: 6292822421103690321}
   leftDoorText: {fileID: 7141530637386098027}
-  rightDoorBonusType: 0
-  leftDoorBonusType: 0
-  rightDoorBonusAmount: 10
-  leftDoorBonusAmount: 10
+  crowdSystem: {fileID: 0}
+  runnerPrefab: {fileID: 6400775054438666414, guid: 5720d846b7e55034399dff246dd80aaf, type: 3}
+  spawnPoint: {fileID: 0}
+  rightDoorRenderer: {fileID: 3931032802433472085}
+  leftDoorRenderer: {fileID: 150270265426141906}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
+  redColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1204970940607897618
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,10 +125,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightDoorText: {fileID: 6292822421103690321}
   leftDoorText: {fileID: 7141530637386098027}
-  rightDoorBonusType: 0
-  leftDoorBonusType: 0
-  rightDoorBonusAmount: 10
-  leftDoorBonusAmount: 10
+  crowdSystem: {fileID: 0}
+  runnerPrefab: {fileID: 6400775054438666414, guid: 5720d846b7e55034399dff246dd80aaf, type: 3}
+  spawnPoint: {fileID: 0}
+  rightDoorRenderer: {fileID: 3931032802433472085}
+  leftDoorRenderer: {fileID: 150270265426141906}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
+  redColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &3072588890453982113
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,7 +678,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 300c59cf77a78e94d9260cd5bc640d2c, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.10913372, a: 1}
+  m_Color: {r: 0.22352943, g: 1, b: 0.25490198, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -752,10 +758,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightDoorText: {fileID: 6292822421103690321}
   leftDoorText: {fileID: 7141530637386098027}
-  rightDoorBonusType: 0
-  leftDoorBonusType: 0
-  rightDoorBonusAmount: 10
-  leftDoorBonusAmount: 10
+  crowdSystem: {fileID: 0}
+  runnerPrefab: {fileID: 6400775054438666414, guid: 5720d846b7e55034399dff246dd80aaf, type: 3}
+  spawnPoint: {fileID: 0}
+  rightDoorRenderer: {fileID: 3931032802433472085}
+  leftDoorRenderer: {fileID: 150270265426141906}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
+  redColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &8413037872540604964
 GameObject:
   m_ObjectHideFlags: 0

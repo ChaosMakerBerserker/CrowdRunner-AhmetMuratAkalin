@@ -3,33 +3,31 @@ using UnityEngine;
 public class RunnerFollow : MonoBehaviour
 {
     public Transform target;
-    public float speed = 5f;
-    private Rigidbody rb;
+    public Vector3 offset = new Vector3(0, 0, -1f); // Hafif arka pozisyon
+    public float followSpeed = 5f;
+    public float minDistance = 1f;
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
+    [Header("Map Bounds")]
+    public Vector2 xBounds = new Vector2(-50, 50);
+    public Vector2 zBounds = new Vector2(-50, 50);
 
-        // Rigidbody ayarları
-        if (rb != null)
-        {
-            rb.useGravity = true;
-            rb.isKinematic = false;
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
-        }
-    }
-
-    void FixedUpdate()
+    void Update()
     {
         if (target == null) return;
 
-        Vector3 direction = target.position - rb.position;
-        direction.y = 0;
-        direction.Normalize();
+        Vector3 desiredPos = target.position + offset;
+        float distance = Vector3.Distance(transform.position, target.position);
 
-        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+        // Minimum mesafe kontrolü
+        if (distance > minDistance)
+        {
+            transform.position = Vector3.Lerp(transform.position, desiredPos, Time.deltaTime * followSpeed);
+        }
 
-        if (direction != Vector3.zero)
-            rb.MoveRotation(Quaternion.LookRotation(direction));
+        // Harita sınırları
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, xBounds.x, xBounds.y);
+        pos.z = Mathf.Clamp(pos.z, zBounds.x, zBounds.y);
+        transform.position = pos;
     }
 }
