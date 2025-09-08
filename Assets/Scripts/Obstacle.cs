@@ -2,21 +2,14 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    public CrowdSystem crowdSystem; // Inspector'dan atayabilirsiniz
+    [SerializeField] private int obstacleStrength = 3;
 
     private void OnTriggerEnter(Collider other)
     {
-        // Runner tag kontrolü
-        if (other.CompareTag("Runner"))
+        PlayerController player = other.GetComponent<PlayerController>();
+        if (player != null && player.crowdSystem != null)
         {
-            RunnerFollow runner = other.GetComponentInParent<RunnerFollow>();
-            if (runner != null)
-            {
-                if (crowdSystem != null)
-                    crowdSystem.RemoveCrowd(runner.gameObject);
-                else
-                    Debug.LogWarning("CrowdSystem referansı atanmadı!");
-            }
+            player.crowdSystem.RemoveRunners(obstacleStrength);
         }
     }
 }

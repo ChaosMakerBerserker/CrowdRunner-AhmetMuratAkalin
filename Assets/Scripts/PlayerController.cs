@@ -3,9 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("References")]
-    public CrowdSystem crowdSystem;   // CrowdSystem referansı
-    public GameObject runnerPrefab;   // Eklemek istediğin runner prefab
-    public Transform spawnPoint;      // Runner spawn pozisyonu
+    public CrowdSystem crowdSystem;
 
     [Header("Movement Settings")]
     public float speed = 10f;
@@ -21,21 +19,14 @@ public class PlayerController : MonoBehaviour
     {
         targetPositionX = transform.position;
 
-        // Başlangıçta bir runner ekle
-        if (crowdSystem != null && runnerPrefab != null && spawnPoint != null)
-        {
-            GameObject newRunner = Instantiate(runnerPrefab, spawnPoint.position, Quaternion.identity);
-            crowdSystem.AddCrowd(newRunner);
-
-            RunnerFollow follow = newRunner.GetComponent<RunnerFollow>();
-            if (follow != null)
-                follow.target = crowdSystem.leader;
-        }
+        // Başlangıçta runnerları güncelle
+        if(crowdSystem != null)
+            crowdSystem.AddRunners(crowdSystem.GetCrowdCount() - 1); 
     }
 
     void Update()
     {
-        if (GameManager.gameEnded) return; // Oyun bitti, player durur
+        if (GameManager.gameEnded) return;
         HandleSlide();
         HandleMovement();
     }
@@ -44,11 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         if (crowdSystem == null) return;
 
-        // Player hedef pozisyonu: ilk runner veya lider
-        Vector3 targetPos = crowdSystem.GetCrowdCount() > 0 ? 
-                            crowdSystem.runners[0].transform.position : 
-                            crowdSystem.leader.position;
-
+        Vector3 targetPos = crowdSystem.GetTargetPosition();
         Vector3 direction = targetPos - transform.position;
         direction.y = 0;
 

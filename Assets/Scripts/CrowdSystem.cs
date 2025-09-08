@@ -1,80 +1,104 @@
 using UnityEngine;
-using System.Collections.Generic;
+using TMPro;
 
-public class CrowdSystem : MonoBehaviour
+public class Doors : MonoBehaviour
 {
-    [Header("Settings")]
-    public GameObject runnerPrefab;
-    public Transform runnerParent;
-    public Transform leader;
+    [Header("Elements")]
+    public TextMeshPro rightDoorText;
+    public TextMeshPro leftDoorText;
 
-    [Header("Crowd Settings")]
-    public int crowdCount = 10;
-    public float spacing = 0.8f;
-    public float goldenAngle = 137.508f;
+    [Header("References")]
+    public CrowdSystem crowdSystem;
 
-    [Header("Map Bounds")]
-    public Vector2 xBounds = new Vector2(-50, 50);
-    public Vector2 zBounds = new Vector2(-50, 50);
+    [Header("Visuals")]
+    public Renderer rightDoorRenderer;
+    public Renderer leftDoorRenderer;
+    public Color greenColor = Color.green;
+    public Color redColor = Color.red;
 
-    public List<GameObject> runners = new List<GameObject>();
+    // Random bonus bilgileri
+    private bool rightDoorIsAddition;
+    private int rightDoorAmount;
+
+    private bool leftDoorIsAddition;
+    private int leftDoorAmount;
 
     void Start()
     {
-        SpawnRunners();
+        RandomizeDoor();
+        UpdateDoorTexts();
+        UpdateDoorColors();
     }
 
-    void SpawnRunners()
+    // Random bonusları belirler
+    public void RandomizeDoor()
     {
-        for (int i = 0; i < crowdCount; i++)
+        rightDoorIsAddition = Random.value > 0.5f;
+        leftDoorIsAddition = Random.value > 0.5f;
+
+        rightDoorAmount = Random.Range(1, 11);
+        leftDoorAmount = Random.Range(1, 11);
+    }
+
+    public void UpdateDoorTexts()
+    {
+        if (rightDoorText != null)
         {
-            float angle = i * goldenAngle * Mathf.Deg2Rad;
-            float radius = Mathf.Sqrt(i) * spacing;
+            rightDoorText.text = (rightDoorIsAddition ? "+" : "-") + rightDoorAmount;
+            rightDoorText.color = rightDoorIsAddition ? greenColor : redColor;
+        }
 
-            Vector3 pos = new Vector3(radius * Mathf.Cos(angle), 0, radius * Mathf.Sin(angle));
-            pos += runnerParent.position;
+        if (leftDoorText != null)
+        {
+            leftDoorText.text = (leftDoorIsAddition ? "+" : "-") + leftDoorAmount;
+            leftDoorText.color = leftDoorIsAddition ? greenColor : redColor;
+        }
+    }
 
-            pos.x = Mathf.Clamp(pos.x, xBounds.x, xBounds.y);
-            pos.z = Mathf.Clamp(pos.z, zBounds.x, zBounds.y);
-
-            GameObject runner = Instantiate(runnerPrefab, pos, Quaternion.identity, runnerParent);
-            runners.Add(runner);
-
-            RunnerFollow follow = runner.GetComponent<RunnerFollow>();
-            if (follow != null)
+    public void UpdateDoorColors()
+    {
+        if (rightDoorRenderer != null)
+        {
+            foreach (var r in rightDoorRenderer.GetComponentsInChildren<Renderer>())
             {
-                follow.target = i == 0 ? leader : runners[i - 1].transform;
+                if (r != null && r.material != null)
+                    r.material.color = rightDoorIsAddition ? greenColor : redColor;
+            }
+        }
+
+        if (leftDoorRenderer != null)
+        {
+            foreach (var r in leftDoorRenderer.GetComponentsInChildren<Renderer>())
+            {
+                if (r != null && r.material != null)
+                    r.material.color = leftDoorIsAddition ? greenColor : redColor;
             }
         }
     }
 
-    // -----------------------
-    // Önceki scriptlerin kullandığı metotlar
-    // -----------------------
-
-    public void AddCrowd(GameObject newRunner)
+    private void OnTriggerEnter(Collider other)
     {
-        runners.Add(newRunner);
-        newRunner.transform.parent = runnerParent;
+        PlayerController player = other.GetComponent<PlayerController>();
+        if (player == null || crowdSystem == null) return;
+
+        float playerX = other.transform.position.x;
+        float middleX = transform.position.x;
+
+        // Sağ veya sol kapıya göre bonus uygula
+        if (playerX >= middleX)
+            ApplyDoorBonus(rightDoorIsAddition, rightDoorAmount);
+        else
+            ApplyDoorBonus(leftDoorIsAddition, leftDoorAmount);
+
+        // Kapıyı kapat
+        gameObject.SetActive(false);
     }
 
-    public void RemoveCrowd(GameObject runner)
+    private void ApplyDoorBonus(bool isAddition, int amount)
     {
-        if (runners.Contains(runner))
-        {
-            runners.Remove(runner);
-            Destroy(runner);
-        }
-    }
-
-    public int GetCrowdCount()
-    {
-        return runners.Count;
-    }
-
-    public Vector3 GetTargetPosition(int index)
-    {
-        if (index < 0 || index >= runners.Count) return leader.position;
-        return runners[index].transform.position;
+        if (isAddition)
+            crowdSystem.AddRunners(amount);
+        else
+            crowdSystem.RemoveRunners(amount);
     }
 }

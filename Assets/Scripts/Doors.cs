@@ -9,8 +9,6 @@ public class Doors : MonoBehaviour
 
     [Header("References")]
     public CrowdSystem crowdSystem;
-    public GameObject runnerPrefab;
-    public Transform spawnPoint;
 
     [Header("Visuals")]
     public Renderer rightDoorRenderer;
@@ -18,77 +16,62 @@ public class Doors : MonoBehaviour
     public Color greenColor = Color.green;
     public Color redColor = Color.red;
 
-    private BonusType rightDoorBonusType;
-    private BonusType leftDoorBonusType;
-    private int rightDoorBonusAmount;
-    private int leftDoorBonusAmount;
+    // Random bonus bilgileri
+    private bool rightDoorIsAddition;
+    private int rightDoorAmount;
+
+    private bool leftDoorIsAddition;
+    private int leftDoorAmount;
 
     void Start()
     {
-        RandomizeDoorBonuses();
+        RandomizeDoor();
         UpdateDoorTexts();
         UpdateDoorColors();
     }
 
-    private void RandomizeDoorBonuses()
+    // Random bonusları belirler
+    public void RandomizeDoor()
     {
-        rightDoorBonusType = (BonusType)Random.Range(0, 4);
-        leftDoorBonusType = (BonusType)Random.Range(0, 4);
+        rightDoorIsAddition = Random.value > 0.5f;
+        leftDoorIsAddition = Random.value > 0.5f;
 
-        rightDoorBonusAmount = Random.Range(1, 11);
-        leftDoorBonusAmount = Random.Range(1, 11);
+        rightDoorAmount = Random.Range(1, 11);
+        leftDoorAmount = Random.Range(1, 11);
     }
 
-    private void UpdateDoorTexts()
+    public void UpdateDoorTexts()
     {
         if (rightDoorText != null)
         {
-            rightDoorText.text = GetFormattedText(rightDoorBonusType, rightDoorBonusAmount);
-            rightDoorText.color = (rightDoorBonusType == BonusType.Addition || rightDoorBonusType == BonusType.Multiplication)
-                                  ? greenColor : redColor;
+            rightDoorText.text = (rightDoorIsAddition ? "+" : "-") + rightDoorAmount;
+            rightDoorText.color = rightDoorIsAddition ? greenColor : redColor;
         }
 
         if (leftDoorText != null)
         {
-            leftDoorText.text = GetFormattedText(leftDoorBonusType, leftDoorBonusAmount);
-            leftDoorText.color = (leftDoorBonusType == BonusType.Addition || leftDoorBonusType == BonusType.Multiplication)
-                                 ? greenColor : redColor;
+            leftDoorText.text = (leftDoorIsAddition ? "+" : "-") + leftDoorAmount;
+            leftDoorText.color = leftDoorIsAddition ? greenColor : redColor;
         }
     }
 
-    private string GetFormattedText(BonusType type, int amount)
-    {
-        switch (type)
-        {
-            case BonusType.Addition: return $"+{amount}";
-            case BonusType.Difference: return $"-{amount}";
-            case BonusType.Multiplication: return $"x{amount}";
-            case BonusType.Division: return $"/{amount}";
-            default: return amount.ToString();
-        }
-    }
-
-    private void UpdateDoorColors()
+    public void UpdateDoorColors()
     {
         if (rightDoorRenderer != null)
         {
-            Renderer[] rightRenderers = rightDoorRenderer.GetComponentsInChildren<Renderer>();
-            foreach (var r in rightRenderers)
+            foreach (var r in rightDoorRenderer.GetComponentsInChildren<Renderer>())
             {
                 if (r != null && r.material != null)
-                    r.material.color = (rightDoorBonusType == BonusType.Addition || rightDoorBonusType == BonusType.Multiplication) 
-                                       ? greenColor : redColor;
+                    r.material.color = rightDoorIsAddition ? greenColor : redColor;
             }
         }
 
         if (leftDoorRenderer != null)
         {
-            Renderer[] leftRenderers = leftDoorRenderer.GetComponentsInChildren<Renderer>();
-            foreach (var r in leftRenderers)
+            foreach (var r in leftDoorRenderer.GetComponentsInChildren<Renderer>())
             {
                 if (r != null && r.material != null)
-                    r.material.color = (leftDoorBonusType == BonusType.Addition || leftDoorBonusType == BonusType.Multiplication) 
-                                      ? greenColor : redColor;
+                    r.material.color = leftDoorIsAddition ? greenColor : redColor;
             }
         }
     }
@@ -96,85 +79,25 @@ public class Doors : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
-        if (player == null || crowdSystem == null || runnerPrefab == null || spawnPoint == null) return;
+        if (player == null || crowdSystem == null) return;
 
         float playerX = other.transform.position.x;
         float middleX = transform.position.x;
 
-        if (playerX >= middleX) // Sağ kapı
-        {
-            ApplyBonus(rightDoorBonusType, rightDoorBonusAmount);
-        }
-        else // Sol kapı
-        {
-            ApplyBonus(leftDoorBonusType, leftDoorBonusAmount);
-        }
+        // Sağ veya sol kapıya göre bonus uygula
+        if (playerX >= middleX)
+            ApplyDoorBonus(rightDoorIsAddition, rightDoorAmount);
+        else
+            ApplyDoorBonus(leftDoorIsAddition, leftDoorAmount);
 
-        gameObject.SetActive(false); // Destroy yerine deactivate
+        gameObject.SetActive(false);
     }
 
-    private void ApplyBonus(BonusType type, int amount)
+    private void ApplyDoorBonus(bool isAddition, int amount)
     {
-        switch (type)
-        {
-            case BonusType.Addition:
-                for (int i = 0; i < amount; i++)
-                {
-                    GameObject newRunner = Instantiate(runnerPrefab, spawnPoint.position, Quaternion.identity);
-                    if (crowdSystem != null && newRunner != null)
-                    {
-                        crowdSystem.AddCrowd(newRunner);
-                        RunnerFollow follow = newRunner.GetComponent<RunnerFollow>();
-                        if (follow != null)
-                        {
-                            int count = crowdSystem.GetCrowdCount();
-                            follow.target = count <= 1 ? crowdSystem.leader : crowdSystem.runners[count - 2].transform;
-                        }
-                    }
-                }
-                break;
-
-            case BonusType.Difference:
-                int removeCount = Mathf.Min(amount, crowdSystem.GetCrowdCount());
-                for (int i = 0; i < removeCount; i++)
-                {
-                    if (crowdSystem.GetCrowdCount() == 0) break;
-                    GameObject lastRunner = crowdSystem.runners[crowdSystem.GetCrowdCount() - 1];
-                    if (lastRunner != null)
-                        crowdSystem.RemoveCrowd(lastRunner);
-                }
-                break;
-
-            case BonusType.Multiplication:
-                int current = crowdSystem.GetCrowdCount();
-                for (int i = 0; i < current * (amount - 1); i++)
-                {
-                    GameObject newRunner = Instantiate(runnerPrefab, spawnPoint.position, Quaternion.identity);
-                    if (crowdSystem != null && newRunner != null)
-                    {
-                        crowdSystem.AddCrowd(newRunner);
-                        RunnerFollow follow = newRunner.GetComponent<RunnerFollow>();
-                        if (follow != null && crowdSystem.GetCrowdCount() >= 2)
-                            follow.target = crowdSystem.runners[crowdSystem.GetCrowdCount() - 2].transform;
-                    }
-                }
-                break;
-
-            case BonusType.Division:
-                int cur = crowdSystem.GetCrowdCount();
-                if (amount != 0)
-                {
-                    int toRemove = cur - cur / amount;
-                    toRemove = Mathf.Min(toRemove, cur);
-                    for (int i = 0; i < toRemove; i++)
-                    {
-                        if (crowdSystem.GetCrowdCount() == 0) break;
-                        GameObject lastRunner = crowdSystem.runners[crowdSystem.GetCrowdCount() - 1];
-                        if (lastRunner != null)
-                            crowdSystem.RemoveCrowd(lastRunner);
-                    }
-                }
-                break;
-        }
+        if (isAddition)
+            crowdSystem.AddRunners(amount);
+        else
+            crowdSystem.RemoveRunners(amount);
     }
 }

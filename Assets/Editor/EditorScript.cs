@@ -1,32 +1,35 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using System.IO;
 
-[InitializeOnLoad]
-public class AutoCreateAssets
+[CustomEditor(typeof(Doors))]
+public class DoorsEditor : Editor
 {
-    static AutoCreateAssets()
+    public override void OnInspectorGUI()
     {
-        // Settings klasörü
-        if (!AssetDatabase.IsValidFolder("Assets/Settings"))
-            AssetDatabase.CreateFolder("Assets", "Settings");
+        Doors door = (Doors)target;
 
-        // TutorialInfo klasörü
-        if (!AssetDatabase.IsValidFolder("Assets/TutorialInfo"))
-            AssetDatabase.CreateFolder("Assets", "TutorialInfo");
+        // Orijinal Inspector çiz
+        DrawDefaultInspector();
 
-        // Scripts klasörü
-        if (!AssetDatabase.IsValidFolder("Assets/TutorialInfo/Scripts"))
-            AssetDatabase.CreateFolder("Assets/TutorialInfo", "Scripts");
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Door Preview", EditorStyles.boldLabel);
 
-        // Readme asset
-        if (AssetDatabase.FindAssets("t:Readme").Length == 0)
+        // Buton ile kapıları rastgele ayarlama
+        if (GUILayout.Button("Randomize Doors"))
         {
-            Readme readme = ScriptableObject.CreateInstance<Readme>();
-            AssetDatabase.CreateAsset(readme, "Assets/Settings/MainReadme.asset");
-        }
+            Undo.RecordObject(door, "Randomize Doors");
 
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+            // Random bonus atama
+            door.RandomizeDoor();
+
+            // Kapı metinlerini ve renklerini güncelle
+            door.UpdateDoorTexts();
+            door.UpdateDoorColors();
+
+            // Inspector'ı güncelle
+            EditorUtility.SetDirty(door);
+        }
     }
 }
+#endif
