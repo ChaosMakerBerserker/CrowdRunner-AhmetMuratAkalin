@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class RunnerFollow : MonoBehaviour
 {
+    public GameManager gameManager; // GameManager referansı
     public Transform target;
     public float speed = 5f;
 
     void Update()
     {
-        if (GameManager.gameEnded) return;
+        if (gameManager != null && gameManager.gameEnded) return;
+
         if (target == null) return;
 
         Vector3 direction = target.position - transform.position;

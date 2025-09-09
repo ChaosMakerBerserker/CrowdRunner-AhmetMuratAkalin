@@ -5,6 +5,8 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public CrowdSystem crowdSystem;   // CrowdSystem referansı
 
+    public GameManager gameManager; // GameManager referansı
+
     [Header("Movement Settings")]
     public float speed = 10f;
     public float turnSpeed = 10f;
@@ -29,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.gameEnded) return;
+        if (gameManager != null && gameManager.gameEnded) return;
         HandleSlide();
         HandleMovement();
     }
