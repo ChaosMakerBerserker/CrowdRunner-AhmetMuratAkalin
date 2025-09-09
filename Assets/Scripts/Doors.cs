@@ -1,103 +1,86 @@
 using UnityEngine;
 using TMPro;
 
-public class Doors : MonoBehaviour
+public class Doors : MonoBehaviour 
 {
     [Header("Elements")]
     public TextMeshPro rightDoorText;
     public TextMeshPro leftDoorText;
 
-    [Header("References")]
-    public CrowdSystem crowdSystem;
-
-    [Header("Visuals")]
-    public Renderer rightDoorRenderer;
-    public Renderer leftDoorRenderer;
-    public Color greenColor = Color.green;
-    public Color redColor = Color.red;
-
-    // Random bonus bilgileri
-    private bool rightDoorIsAddition;
-    private int rightDoorAmount;
-
-    private bool leftDoorIsAddition;
-    private int leftDoorAmount;
+    [Header("Settings")]
+    public BonusType rightDoorBonusType = BonusType.Addition;
+    public BonusType leftDoorBonusType = BonusType.Addition;
+    public int rightDoorBonusAmount = 10;
+    public int leftDoorBonusAmount = 2;
 
     void Start()
     {
-        RandomizeDoor();
         UpdateDoorTexts();
-        UpdateDoorColors();
     }
 
-    // Random bonusları belirler
-    public void RandomizeDoor()
-    {
-        rightDoorIsAddition = Random.value > 0.5f;
-        leftDoorIsAddition = Random.value > 0.5f;
-
-        rightDoorAmount = Random.Range(1, 11);
-        leftDoorAmount = Random.Range(1, 11);
-    }
-
-    public void UpdateDoorTexts()
+    private void UpdateDoorTexts()
     {
         if (rightDoorText != null)
-        {
-            rightDoorText.text = (rightDoorIsAddition ? "+" : "-") + rightDoorAmount;
-            rightDoorText.color = rightDoorIsAddition ? greenColor : redColor;
-        }
+            rightDoorText.text = GetFormattedText(rightDoorBonusType, rightDoorBonusAmount);
 
         if (leftDoorText != null)
-        {
-            leftDoorText.text = (leftDoorIsAddition ? "+" : "-") + leftDoorAmount;
-            leftDoorText.color = leftDoorIsAddition ? greenColor : redColor;
-        }
+            leftDoorText.text = GetFormattedText(leftDoorBonusType, leftDoorBonusAmount);
     }
 
-    public void UpdateDoorColors()
+    private string GetFormattedText(BonusType type, int amount)
     {
-        if (rightDoorRenderer != null)
+        switch (type)
         {
-            foreach (var r in rightDoorRenderer.GetComponentsInChildren<Renderer>())
-            {
-                if (r != null && r.material != null)
-                    r.material.color = rightDoorIsAddition ? greenColor : redColor;
-            }
-        }
-
-        if (leftDoorRenderer != null)
-        {
-            foreach (var r in leftDoorRenderer.GetComponentsInChildren<Renderer>())
-            {
-                if (r != null && r.material != null)
-                    r.material.color = leftDoorIsAddition ? greenColor : redColor;
-            }
+            case BonusType.Addition: return $"+{amount}";
+            case BonusType.Difference: return $"-{amount}";
+            case BonusType.Multiplication: return $"x{amount}";
+            case BonusType.Division: return $"/{amount}";
+            default: return amount.ToString();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
-        if (player == null || crowdSystem == null) return;
+        if (player == null || player.crowdSystem == null) return;
 
         float playerX = other.transform.position.x;
         float middleX = transform.position.x;
 
-        // Sağ veya sol kapıya göre bonus uygula
-        if (playerX >= middleX)
-            ApplyDoorBonus(rightDoorIsAddition, rightDoorAmount);
-        else
-            ApplyDoorBonus(leftDoorIsAddition, leftDoorAmount);
-
-        gameObject.SetActive(false);
+        if (playerX >= middleX) // Sağ kapı
+        {
+            ApplyBonus(player, rightDoorBonusType, rightDoorBonusAmount);
+            Debug.Log("Sağ kapı seçildi!");
+        }
+        else // Sol kapı
+        {
+            ApplyBonus(player, leftDoorBonusType, leftDoorBonusAmount);
+            Debug.Log("Sol kapı seçildi!");
+        }
     }
 
-    private void ApplyDoorBonus(bool isAddition, int amount)
+    private void ApplyBonus(PlayerController player, BonusType type, int amount)
     {
-        if (isAddition)
-            crowdSystem.AddRunners(amount);
-        else
-            crowdSystem.RemoveRunners(amount);
+        switch (type)
+        {
+            case BonusType.Addition:
+                player.crowdSystem.AddCrowd(amount);
+                break;
+
+            case BonusType.Difference:
+                player.crowdSystem.AddCrowd(-amount);
+                break;
+
+            case BonusType.Multiplication:
+                int current = player.crowdSystem.GetCrowdCount();
+                player.crowdSystem.AddCrowd(current * (amount - 1));
+                break;
+
+            case BonusType.Division:
+                int cur = player.crowdSystem.GetCrowdCount();
+                if (amount != 0)
+                    player.crowdSystem.AddCrowd(-(cur - cur / amount));
+                break;
+        }
     }
 }

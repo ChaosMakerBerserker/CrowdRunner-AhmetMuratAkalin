@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("References")]
-    public CrowdSystem crowdSystem;
+    public CrowdSystem crowdSystem;   // CrowdSystem referansı
 
     [Header("Movement Settings")]
     public float speed = 10f;
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
         // Başlangıçta runnerları güncelle
         if(crowdSystem != null)
-            crowdSystem.AddRunners(crowdSystem.GetCrowdCount() - 1); 
+            crowdSystem.AddCrowd(crowdSystem.crowdCount - 1);
     }
 
     void Update()

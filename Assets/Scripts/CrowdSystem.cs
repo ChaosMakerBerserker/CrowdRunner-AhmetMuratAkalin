@@ -1,104 +1,59 @@
 using UnityEngine;
-using TMPro;
 
-public class Doors : MonoBehaviour
+public class CrowdSystem : MonoBehaviour
 {
-    [Header("Elements")]
-    public TextMeshPro rightDoorText;
-    public TextMeshPro leftDoorText;
+    [Header("Settings")]
+    public GameObject runnerPrefab;
+    public Transform runnerParent;
+    public Transform target;
 
-    [Header("References")]
-    public CrowdSystem crowdSystem;
-
-    [Header("Visuals")]
-    public Renderer rightDoorRenderer;
-    public Renderer leftDoorRenderer;
-    public Color greenColor = Color.green;
-    public Color redColor = Color.red;
-
-    // Random bonus bilgileri
-    private bool rightDoorIsAddition;
-    private int rightDoorAmount;
-
-    private bool leftDoorIsAddition;
-    private int leftDoorAmount;
+    [Header("Crowd Settings")]
+    public int crowdCount = 2;      // Başlangıçta 1 player + 1 runner
+    public float spacing = 1.5f;
 
     void Start()
     {
-        RandomizeDoor();
-        UpdateDoorTexts();
-        UpdateDoorColors();
+        // Başlangıçta runner’ları oluştur
+        UpdateRunners();
     }
 
-    // Random bonusları belirler
-    public void RandomizeDoor()
+    public void AddCrowd(int amount)
     {
-        rightDoorIsAddition = Random.value > 0.5f;
-        leftDoorIsAddition = Random.value > 0.5f;
-
-        rightDoorAmount = Random.Range(1, 11);
-        leftDoorAmount = Random.Range(1, 11);
+        crowdCount = Mathf.Max(1, crowdCount + amount);
+        UpdateRunners();
     }
 
-    public void UpdateDoorTexts()
+    private void UpdateRunners()
     {
-        if (rightDoorText != null)
+        if (runnerParent == null || runnerPrefab == null) return;
+
+        // Önce var olan runner’ları temizle
+        foreach (Transform child in runnerParent)
         {
-            rightDoorText.text = (rightDoorIsAddition ? "+" : "-") + rightDoorAmount;
-            rightDoorText.color = rightDoorIsAddition ? greenColor : redColor;
+            Destroy(child.gameObject);
         }
 
-        if (leftDoorText != null)
+        // Yeni runner’ları oluştur
+        for (int i = 0; i < crowdCount - 1; i++) // -1 çünkü player zaten var
         {
-            leftDoorText.text = (leftDoorIsAddition ? "+" : "-") + leftDoorAmount;
-            leftDoorText.color = leftDoorIsAddition ? greenColor : redColor;
-        }
-    }
+            GameObject runnerObj = Instantiate(runnerPrefab, runnerParent);
+            runnerObj.transform.localPosition = new Vector3((i % 5) * spacing, 0, -(i / 5) * spacing);
+            runnerObj.SetActive(true);
 
-    public void UpdateDoorColors()
-    {
-        if (rightDoorRenderer != null)
-        {
-            foreach (var r in rightDoorRenderer.GetComponentsInChildren<Renderer>())
-            {
-                if (r != null && r.material != null)
-                    r.material.color = rightDoorIsAddition ? greenColor : redColor;
-            }
-        }
-
-        if (leftDoorRenderer != null)
-        {
-            foreach (var r in leftDoorRenderer.GetComponentsInChildren<Renderer>())
-            {
-                if (r != null && r.material != null)
-                    r.material.color = leftDoorIsAddition ? greenColor : redColor;
-            }
+            // RunnerFollow scriptini al ve hedefi ata
+            RunnerFollow followScript = runnerObj.GetComponent<RunnerFollow>();
+            if (followScript != null)
+                followScript.target = target;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public Vector3 GetTargetPosition()
     {
-        PlayerController player = other.GetComponent<PlayerController>();
-        if (player == null || crowdSystem == null) return;
-
-        float playerX = other.transform.position.x;
-        float middleX = transform.position.x;
-
-        // Sağ veya sol kapıya göre bonus uygula
-        if (playerX >= middleX)
-            ApplyDoorBonus(rightDoorIsAddition, rightDoorAmount);
-        else
-            ApplyDoorBonus(leftDoorIsAddition, leftDoorAmount);
-
-        // Kapıyı kapat
-        gameObject.SetActive(false);
+        return target != null ? target.position : runnerParent.position;
     }
 
-    private void ApplyDoorBonus(bool isAddition, int amount)
+    public int GetCrowdCount()
     {
-        if (isAddition)
-            crowdSystem.AddRunners(amount);
-        else
-            crowdSystem.RemoveRunners(amount);
+        return crowdCount;
     }
 }
