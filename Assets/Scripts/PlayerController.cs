@@ -15,9 +15,12 @@ public class PlayerController : MonoBehaviour
     private Vector3 clickedPlayerPosition;
     private Vector3 targetPositionX;
 
+    private Vector3 initialPosition;
+
     void Start()
     {
         targetPositionX = transform.position;
+        initialPosition = transform.position;
 
         // Başlangıçta runnerları güncelle
         if(crowdSystem != null)
@@ -46,6 +49,12 @@ public class PlayerController : MonoBehaviour
         float newZ = transform.position.z + moveZ;
 
         transform.position = new Vector3(targetPositionX.x, transform.position.y, newZ);
+    }
+
+    public void ResetPosition()
+    {
+        transform.position = initialPosition;
+        targetPositionX = initialPosition;
     }
 
     private void HandleSlide()

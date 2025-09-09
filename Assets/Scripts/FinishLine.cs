@@ -3,6 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class FinishLine : MonoBehaviour
 {
+    private Doors[] doorsList = new Doors[0];
+    void Start ()
+    {
+        doorsList = FindObjectsOfType<Doors>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
@@ -10,9 +15,14 @@ public class FinishLine : MonoBehaviour
         {
             Debug.Log("Level bitti!");
 
-            // Direkt 2. seviyeye geç
-            SceneManager.LoadScene("Level2");
-            Time.timeScale = 1f; // garanti olsun diye ekle
+            // Level tamamlandığında FinishUI
+
+            player.ResetPosition();
+            foreach (var door in doorsList)
+            {
+                door.SetRandoms();
+            }
+
         }
     }
 }

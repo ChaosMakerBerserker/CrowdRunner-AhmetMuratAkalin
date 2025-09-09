@@ -5,3 +5,9 @@ public enum BonusType
     Multiplication,
     Division
 }
+
+public enum DoorType
+{
+    Left,
+    Right,
+}
