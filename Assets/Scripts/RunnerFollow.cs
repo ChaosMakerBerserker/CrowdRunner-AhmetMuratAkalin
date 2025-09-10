@@ -19,6 +19,8 @@ public class RunnerFollow : MonoBehaviour
         {
             transform.position += direction.normalized * speed * Time.deltaTime;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 0.2f);
+            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
         }
     }
+
 }

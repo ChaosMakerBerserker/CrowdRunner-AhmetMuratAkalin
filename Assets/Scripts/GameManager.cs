@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
           playerController.ResetPosition();
             foreach (var door in doorsList)
             {
-                door.SetRandoms();
+                door.RandomizeDoor();
             }
 
     }

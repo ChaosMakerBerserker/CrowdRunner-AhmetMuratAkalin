@@ -3,16 +3,25 @@ using UnityEngine;
 public class CrowdSystem : MonoBehaviour
 {
     [Header("Settings")]
+    public GameObject playerPrefab; // inspector'da player prefabını ata
+    private GameObject playerInstance; 
     public GameObject runnerPrefab;
     public Transform runnerParent;
-    public Transform target;
+    public Transform target; // player veya sahnede var olan objeyi referans alacak
 
     [Header("Crowd Settings")]
-    public int crowdCount = 2;      // Başlangıçta 1 player + 1 runner
+    public int crowdCount = 3;      // Başlangıçta 1 player + 2 runner
     public float spacing = 1.5f;
 
     void Start()
     {
+        // Eğer target atanmadıysa, playerPrefab'ı instantiate et
+        if (target == null && playerPrefab != null)
+        {
+            playerInstance = Instantiate(playerPrefab);
+            target = playerInstance.transform;
+        }
+
         // Başlangıçta runner’ları oluştur
         UpdateRunners();
     }
@@ -23,24 +32,29 @@ public class CrowdSystem : MonoBehaviour
         UpdateRunners();
     }
 
+    public void RemoveCrowd(int amount)
+    {
+        crowdCount = Mathf.Max(1, crowdCount - amount);
+        UpdateRunners();
+    }
+
     private void UpdateRunners()
     {
         if (runnerParent == null || runnerPrefab == null) return;
 
-        // Önce var olan runner’ları temizle
+        // Önce mevcut runnerları temizle
         foreach (Transform child in runnerParent)
         {
             Destroy(child.gameObject);
         }
 
-        // Yeni runner’ları oluştur
-        for (int i = 0; i < crowdCount - 1; i++) // -1 çünkü player zaten var
+        // Player zaten sahnede -> Runner'ları oluştur
+        for (int i = 0; i < crowdCount - 1; i++)
         {
             GameObject runnerObj = Instantiate(runnerPrefab, runnerParent);
             runnerObj.transform.localPosition = new Vector3((i % 5) * spacing, 0, -(i / 5) * spacing);
             runnerObj.SetActive(true);
 
-            // RunnerFollow scriptini al ve hedefi ata
             RunnerFollow followScript = runnerObj.GetComponent<RunnerFollow>();
             if (followScript != null)
                 followScript.target = target;
