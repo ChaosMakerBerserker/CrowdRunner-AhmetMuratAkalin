@@ -38,6 +38,17 @@ public class Doors : MonoBehaviour
         UpdateDoorColors();
     }
 
+    // GameManager'dan sol kapı eklendiğinde referansları güncelle (public metod)
+    public void SetLeftDoorReferences(Renderer leftRenderer, TextMeshPro leftText, Transform leftTrans)
+    {
+        leftDoorRenderer = leftRenderer;
+        leftDoorText = leftText;
+        leftDoorTransform = leftTrans;
+        UpdateDoorTexts(); // Metinleri güncelle
+        UpdateDoorColors(); // Renkleri güncelle
+        Debug.Log(gameObject.name + ": Sol kapı referansları güncellendi. LeftTransform X: " + leftTrans.position.x);
+    }
+
     // Bonusları randomize et
     public void RandomizeDoor()
     {
@@ -97,6 +108,8 @@ public class Doors : MonoBehaviour
             leftDoorText.text = leftText;
         else
             Debug.LogWarning(gameObject.name + ": leftDoorText atanmamış!");
+
+        Debug.Log(gameObject.name + ": Door Texts Güncellendi - Sağ: " + rightText + ", Sol: " + leftText);
     }
 
     private string GetFormattedText(BonusType type, int amount)
@@ -115,50 +128,23 @@ public class Doors : MonoBehaviour
     {
         Debug.Log(gameObject.name + ": UpdateDoorColors çağrıldı");
 
-        Color rightColor;
-        switch (rightDoorType)
-        {
-            case BonusType.Addition:
-                rightColor = additionColor;
-                break;
-            case BonusType.Subtraction:
-                rightColor = subtractionColor;
-                break;
-            case BonusType.Multiplication:
-                rightColor = multiplicationColor;
-                break;
-            case BonusType.Division:
-                rightColor = divisionColor;
-                break;
-            default:
-                rightColor = Color.white;
-                Debug.LogWarning(gameObject.name + ": Sağ için geçersiz BonusType, varsayılan renk beyaz");
-                break;
-        }
-
-        Color leftColor;
-        switch (leftDoorType)
-        {
-            case BonusType.Addition:
-                leftColor = additionColor;
-                break;
-            case BonusType.Subtraction:
-                leftColor = subtractionColor;
-                break;
-            case BonusType.Multiplication:
-                leftColor = multiplicationColor;
-                break;
-            case BonusType.Division:
-                leftColor = divisionColor;
-                break;
-            default:
-                leftColor = Color.white;
-                Debug.LogWarning(gameObject.name + ": Sol için geçersiz BonusType, varsayılan renk beyaz");
-                break;
-        }
+        Color rightColor = GetColorForType(rightDoorType);
+        Color leftColor = GetColorForType(leftDoorType);
 
         ApplyColorToRenderer(rightDoorRenderer, rightColor, "sağ kapı");
         ApplyColorToRenderer(leftDoorRenderer, leftColor, "sol kapı");
+    }
+
+    private Color GetColorForType(BonusType type)
+    {
+        switch (type)
+        {
+            case BonusType.Addition: return additionColor;
+            case BonusType.Subtraction: return subtractionColor;
+            case BonusType.Multiplication: return multiplicationColor;
+            case BonusType.Division: return divisionColor;
+            default: return Color.white;
+        }
     }
 
     private void ApplyColorToRenderer(Renderer renderer, Color color, string doorName)
@@ -171,11 +157,7 @@ public class Doors : MonoBehaviour
 
         foreach (var r in renderer.GetComponentsInChildren<Renderer>())
         {
-            if (r == null || r.material == null)
-            {
-                Debug.LogWarning(gameObject.name + ": " + doorName + " renderer veya material eksik!");
-                continue;
-            }
+            if (r == null || r.material == null) continue;
 
             Material mat = r.material;
             if (mat.HasProperty("_Color"))
@@ -185,45 +167,48 @@ public class Doors : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning(gameObject.name + ": " + doorName + " material'inde _Color property'si yok! Shader: " + mat.shader.name);
+                Debug.LogWarning(gameObject.name + ": " + doorName + " material'inde _Color yok! Shader: " + mat.shader.name);
                 mat.shader = Shader.Find("Unlit/Color");
                 mat.SetColor("_Color", color);
-                Debug.Log(gameObject.name + ": " + doorName + " Unlit/Color Shader ile renklendi: " + color);
+                Debug.Log(gameObject.name + ": " + doorName + " Unlit/Color ile renklendi: " + color);
             }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerController player = other.GetComponent<PlayerController>();
-        if (player == null || crowdSystem == null)
+        if (!other.CompareTag("Player"))
         {
-            Debug.LogWarning(gameObject.name + ": PlayerController veya CrowdSystem eksik!");
+            Debug.Log(gameObject.name + ": Tetikleyici sadece Player tag'i için: " + other.name);
             return;
         }
 
-        // Hangi kapıdan geçtiğini belirle
+        if (crowdSystem == null)
+        {
+            Debug.LogError(gameObject.name + ": CrowdSystem atanmamış! Inspector'da ata.");
+            return;
+        }
+
+        // Sol/Sağ kapı seçimi: Player X < 0 ise sol (sahne sol taraf negatif x varsayımı – değiştirilebilir)
         Vector3 playerPos = other.transform.position;
-        Vector3 rightPos = rightDoorTransform != null ? rightDoorTransform.position : transform.position;
-        Vector3 leftPos = leftDoorTransform != null ? leftDoorTransform.position : transform.position;
-        float distToRight = Vector3.Distance(playerPos, rightPos);
-        float distToLeft = Vector3.Distance(playerPos, leftPos);
+        bool isLeftDoor = playerPos.x < 0; // Sol kapı için player x < 0 (sahne ayarına göre değiştir, örneğin < transform.position.x - 1)
 
         BonusType type;
         int amount;
-        if (distToRight < distToLeft)
-        {
-            type = rightDoorType;
-            amount = rightDoorAmount;
-            Debug.Log(gameObject.name + ": Sağ kapı seçildi - Type: " + type + ", Amount: " + amount +
-                      ", PlayerPos: " + playerPos + ", RightPos: " + rightPos + ", DistToRight: " + distToRight);
-        }
-        else
+        string selectedDoorText;
+        if (isLeftDoor)
         {
             type = leftDoorType;
             amount = leftDoorAmount;
-            Debug.Log(gameObject.name + ": Sol kapı seçildi - Type: " + type + ", Amount: " + amount +
-                      ", PlayerPos: " + playerPos + ", LeftPos: " + leftPos + ", DistToLeft: " + distToLeft);
+            selectedDoorText = GetFormattedText(leftDoorType, leftDoorAmount);
+            Debug.Log(gameObject.name + ": Sol kapı seçildi - Type: " + type + ", Amount: " + amount + ", Kapı Metni: " + selectedDoorText + ", Player X: " + playerPos.x);
+        }
+        else
+        {
+            type = rightDoorType;
+            amount = rightDoorAmount;
+            selectedDoorText = GetFormattedText(rightDoorType, rightDoorAmount);
+            Debug.Log(gameObject.name + ": Sağ kapı seçildi - Type: " + type + ", Amount: " + amount + ", Kapı Metni: " + selectedDoorText + ", Player X: " + playerPos.x);
         }
 
         ApplyDoorBonus(type, amount);
@@ -242,33 +227,33 @@ public class Doors : MonoBehaviour
                 crowdSystem.AddCrowd(amount);
                 break;
             case BonusType.Subtraction:
-                newCrowd = Mathf.Max(0, currentCrowd - amount);
-                crowdSystem.AddCrowd(-(currentCrowd - newCrowd));
+                newCrowd = Mathf.Max(1, currentCrowd - amount);
+                crowdSystem.AddCrowd(-amount);
                 break;
             case BonusType.Multiplication:
-                newCrowd = currentCrowd * amount; // Örneğin, 5 * 3 = 15
-                crowdSystem.AddCrowd(newCrowd - currentCrowd); // 15 - 5 = 10 ekler
+                newCrowd = currentCrowd * amount;
+                crowdSystem.AddCrowd(newCrowd - currentCrowd);
                 break;
             case BonusType.Division:
                 if (amount != 0)
                 {
-                    newCrowd = currentCrowd / amount; // Tam sayı bölme, örneğin 5 / 2 = 2
+                    newCrowd = Mathf.Max(1, currentCrowd / amount);
                     crowdSystem.AddCrowd(newCrowd - currentCrowd);
                 }
                 else
                 {
                     newCrowd = currentCrowd;
-                    Debug.LogWarning(gameObject.name + ": Bölme işleminde amount sıfır!");
+                    Debug.LogWarning(gameObject.name + ": Bölme amount=0!");
                 }
                 break;
             default:
                 newCrowd = currentCrowd;
-                Debug.LogWarning(gameObject.name + ": Geçersiz BonusType!");
                 break;
         }
 
+        int finalCrowd = crowdSystem.GetCrowdCount();
         Debug.Log(gameObject.name + ": ApplyDoorBonus - Type: " + type + ", Amount: " + amount +
-                  ", Eski Kalabalık: " + currentCrowd + ", Yeni Kalabalık: " + newCrowd +
-                  ", Eklenen Miktar: " + (newCrowd - currentCrowd));
+                  ", Eski: " + currentCrowd + ", Hesaplanan Yeni: " + newCrowd +
+                  ", Eklenen: " + (newCrowd - currentCrowd) + ", Final CrowdSystem: " + finalCrowd);
     }
 }
