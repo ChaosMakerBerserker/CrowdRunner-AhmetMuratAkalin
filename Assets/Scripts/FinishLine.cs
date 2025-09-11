@@ -11,10 +11,7 @@ public GameManager gameManager; // GameManager referansı
         {
             Debug.Log("Level bitti!");
             
-
-            // Level tamamlandığında FinishUI
-
-          gameManager.EndGame();
+            gameManager.WinGame();
         }
     } 
 }

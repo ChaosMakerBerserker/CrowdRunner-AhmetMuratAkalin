@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -23,15 +24,11 @@ public class PlayerController : MonoBehaviour
     {
         targetPositionX = transform.position;
         initialPosition = transform.position;
-
-        // Başlangıçta runnerları güncelle
-        if(crowdSystem != null)
-            crowdSystem.AddCrowd(crowdSystem.crowdCount - 1);
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        if (gameManager != null && gameManager.gameEnded) return;
+        if(gameManager != null && gameManager.gameEnded) return;
         HandleSlide();
         HandleMovement();
     }

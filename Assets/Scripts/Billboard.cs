@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (Camera.main != null)
         {

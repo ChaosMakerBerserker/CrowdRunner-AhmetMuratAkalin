@@ -16,6 +16,8 @@ public class Doors : MonoBehaviour
     public SpriteRenderer LeftdoorSprite;
     public TextMeshPro rightDoorText;
     public TextMeshPro leftDoorText;
+    
+    public bool isFirstDoor = false;
 
     [Header("Settings")]
     public BonusType rightDoorBonusType = BonusType.Addition;
@@ -41,17 +43,41 @@ public class Doors : MonoBehaviour
         UpdateDoorColors();
     }
     void SetRandomBonuses()
-
     {
-        if (doorType == DoorType.Right)
+        // Kapı bonus türlerini ve miktarlarını rastgele belirle
+        if(isFirstDoor)
         {
-            rightDoorBonusType = (BonusType)Random.Range(0, 4);
+            // Hint: Burada sağ ve sol kapıya rastgele bonus türleri atıyoruz ama Difference ya da Division türü atanmayacak!
+            rightDoorBonusType = (BonusType)Random.Range(0, 2); // 0 veya 1 (Addition veya Multiplication)
+            leftDoorBonusType = (BonusType)Random.Range(0, 2);  // 0 veya 1 (Addition veya Multiplication)
             rightDoorBonusAmount = GetRandomAmount(rightDoorBonusType);
-        }
-        else if (doorType == DoorType.Left)
-        {
-            leftDoorBonusType = (BonusType)Random.Range(0, 4);
             leftDoorBonusAmount = GetRandomAmount(leftDoorBonusType);
+        }
+        else
+        {
+            // LevelID değerine göre kapı bonus türlerini belirle. Ayrıca peş peşe aynı tür gelmemeli. En son Multiplication geldiyse sonrakinde gelmemeli.
+            
+            rightDoorBonusType = (BonusType)Random.Range(0, 4); // 0 ile 3 arasında (Addition, Difference, Multiplication, Division)
+            leftDoorBonusType = (BonusType)Random.Range(0, 4);  // 0 ile 3 arasında (Addition, Difference, Multiplication, Division)
+            rightDoorBonusAmount = GetRandomAmount(rightDoorBonusType);
+            leftDoorBonusAmount = GetRandomAmount(leftDoorBonusType);
+            
+            // Aynı türün peş peşe gelmesini engelle
+            if (rightDoorBonusType == leftDoorBonusType)
+            {
+                leftDoorBonusType = (BonusType)((((int)leftDoorBonusType) + 1) % 4); // Farklı bir tür yap
+                leftDoorBonusAmount = GetRandomAmount(leftDoorBonusType);
+            }
+            if (rightDoorBonusType == BonusType.Multiplication)
+            {
+                leftDoorBonusType = (BonusType)Random.Range(0, 3); // 0 ile 2 arasında (Addition, Difference, Division)
+                leftDoorBonusAmount = GetRandomAmount(leftDoorBonusType);
+            }
+            if (leftDoorBonusType == BonusType.Multiplication)
+            {
+                rightDoorBonusType = (BonusType)Random.Range(0, 3); // 0 ile 2 arasında (Addition, Difference, Division)
+                rightDoorBonusAmount = GetRandomAmount(rightDoorBonusType);
+            }
         }
     }
 
@@ -104,7 +130,7 @@ public class Doors : MonoBehaviour
                 return Random.Range(1, 16); // 1 ile 15 arasında
             case BonusType.Multiplication:
             case BonusType.Division:
-                return Random.Range(2, 5); // 2, 3, 4
+                return Random.Range(2, 4); // 2, 3
             default:
                 return 1;
         }
@@ -163,19 +189,23 @@ public class Doors : MonoBehaviour
                 player.crowdSystem.AddCrowd(amount);
                 break;
 
-            case BonusType.Difference:
-                player.crowdSystem.AddCrowd(-amount);
-                break;
-
             case BonusType.Multiplication:
                 int current = player.crowdSystem.GetCrowdCount();
                 player.crowdSystem.AddCrowd(current * (amount - 1));
+                break;
+            
+            case BonusType.Difference:
+                player.crowdSystem.AddCrowd(-amount);
                 break;
 
             case BonusType.Division:
                 int cur = player.crowdSystem.GetCrowdCount();
                 if (amount != 0)
-                    player.crowdSystem.AddCrowd(-(cur - cur / amount));
+                {
+                    // Tam bölme yaparak kalan kişiyi de ekleyelim. Örneğin 7 kişi / 2 = 3.5, yani 3 kişi kalmalı.
+                    int newCount = cur / amount;
+                    player.crowdSystem.AddCrowd(newCount - cur);
+                }
                 break;
         }
     }

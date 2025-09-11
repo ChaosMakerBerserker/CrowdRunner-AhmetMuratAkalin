@@ -6,7 +6,7 @@ public class RunnerFollow : MonoBehaviour
     public Transform target;
     public float speed = 5f;
 
-    void Update()
+    void FixedUpdate()
     {
         if (gameManager != null && gameManager.gameEnded) return;
 
@@ -17,7 +17,7 @@ public class RunnerFollow : MonoBehaviour
 
         if (direction.magnitude > 0.1f)
         {
-            transform.position += direction.normalized * speed * Time.deltaTime;
+            transform.position += direction.normalized * (speed * Time.deltaTime);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 0.2f);
         }
     }
