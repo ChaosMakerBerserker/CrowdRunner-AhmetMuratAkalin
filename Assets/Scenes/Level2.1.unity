@@ -135,6 +135,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce06addcdd32714bab2006b3fdf9933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &98517866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1133266876994083755, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+  m_PrefabInstance: {fileID: 119017923}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &99072926 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 3931032802433472085, guid: f2294368c25d640489071a364253b859, type: 3}
@@ -155,15 +166,23 @@ PrefabInstance:
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: leftDoorText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 98517866}
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: leftDoorRenderer
       value: 
       objectReference: {fileID: 119017925}
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+      propertyPath: leftDoorTransform
+      value: 
+      objectReference: {fileID: 119017924}
+    - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: rightDoorRenderer
       value: 
       objectReference: {fileID: 119017925}
+    - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+      propertyPath: rightDoorTransform
+      value: 
+      objectReference: {fileID: 1350705587}
     - target: {fileID: 3926631184564293067, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: m_Name
       value: RightDoor (1)
@@ -325,6 +344,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4255283084818085922, guid: f2294368c25d640489071a364253b859, type: 3}
   m_PrefabInstance: {fileID: 474430385123187835}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &412618199 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1133266876994083755, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+  m_PrefabInstance: {fileID: 516338019}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &467169859 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6400775054438666414, guid: 5720d846b7e55034399dff246dd80aaf, type: 3}
@@ -386,15 +416,23 @@ PrefabInstance:
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: leftDoorText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 412618199}
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: leftDoorRenderer
       value: 
       objectReference: {fileID: 516338021}
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+      propertyPath: leftDoorTransform
+      value: 
+      objectReference: {fileID: 516338020}
+    - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: rightDoorRenderer
       value: 
       objectReference: {fileID: 516338021}
+    - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+      propertyPath: rightDoorTransform
+      value: 
+      objectReference: {fileID: 922196257}
     - target: {fileID: 3926631184564293067, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: m_Name
       value: RightDoor (1)
@@ -1190,7 +1228,7 @@ PrefabInstance:
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 412618199}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: runnerPrefab
       value: 
@@ -1224,6 +1262,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorTransform
+      value: 
+      objectReference: {fileID: 516338020}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorRenderer
       value: 
       objectReference: {fileID: 1423439001}
@@ -1231,6 +1273,10 @@ PrefabInstance:
       propertyPath: rightDoorBonusType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorTransform
+      value: 
+      objectReference: {fileID: 922196257}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorBonusAmount
       value: 4
@@ -1515,7 +1561,7 @@ PrefabInstance:
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 98517866}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: runnerPrefab
       value: 
@@ -1549,6 +1595,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorTransform
+      value: 
+      objectReference: {fileID: 119017924}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorRenderer
       value: 
       objectReference: {fileID: 2070610887}
@@ -1556,6 +1606,10 @@ PrefabInstance:
       propertyPath: rightDoorBonusType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorTransform
+      value: 
+      objectReference: {fileID: 1350705587}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorBonusAmount
       value: 4
@@ -1637,6 +1691,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: f2294368c25d640489071a364253b859, type: 3}
+--- !u!4 &922196257 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1212593529565944627, guid: f2294368c25d640489071a364253b859, type: 3}
+  m_PrefabInstance: {fileID: 802641174}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &922196258 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
@@ -1667,15 +1726,23 @@ PrefabInstance:
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: leftDoorText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1664774840}
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: leftDoorRenderer
       value: 
       objectReference: {fileID: 932279075}
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+      propertyPath: leftDoorTransform
+      value: 
+      objectReference: {fileID: 932279074}
+    - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: rightDoorRenderer
       value: 
       objectReference: {fileID: 932279075}
+    - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+      propertyPath: rightDoorTransform
+      value: 
+      objectReference: {fileID: 1749828880}
     - target: {fileID: 3926631184564293067, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: m_Name
       value: RightDoor (1)
@@ -1875,6 +1942,11 @@ Transform:
   - {fileID: 735698268}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1020267162 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1212593529565944627, guid: f2294368c25d640489071a364253b859, type: 3}
+  m_PrefabInstance: {fileID: 2110658027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1020267163 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
@@ -2411,6 +2483,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 946111702}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1350705587 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1212593529565944627, guid: f2294368c25d640489071a364253b859, type: 3}
+  m_PrefabInstance: {fileID: 881987134}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1350705588 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
@@ -2617,6 +2694,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7275082302226457476, guid: 12d6e17633ec6f245899f52514ac38e8, type: 3}
   m_PrefabInstance: {fileID: 2431851432275665203}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1538686202 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1133266876994083755, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+  m_PrefabInstance: {fileID: 1741541006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1610175435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2714,6 +2802,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1008282731}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1664774840 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1133266876994083755, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+  m_PrefabInstance: {fileID: 932279073}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1701480706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4255283084818085922, guid: f2294368c25d640489071a364253b859, type: 3}
@@ -3203,15 +3302,23 @@ PrefabInstance:
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: leftDoorText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1538686202}
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: leftDoorRenderer
       value: 
       objectReference: {fileID: 1741541007}
     - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+      propertyPath: leftDoorTransform
+      value: 
+      objectReference: {fileID: 1741541008}
+    - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: rightDoorRenderer
       value: 
       objectReference: {fileID: 1741541007}
+    - target: {fileID: 195619374142959959, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
+      propertyPath: rightDoorTransform
+      value: 
+      objectReference: {fileID: 1020267162}
     - target: {fileID: 3926631184564293067, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
       propertyPath: m_Name
       value: RightDoor (1)
@@ -3309,6 +3416,11 @@ SpriteRenderer:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5205400294983860937, guid: 1ab70f1169bf3814ba2c1565b68611d1, type: 3}
   m_PrefabInstance: {fileID: 1741541006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1749828880 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1212593529565944627, guid: f2294368c25d640489071a364253b859, type: 3}
+  m_PrefabInstance: {fileID: 474430385123187835}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1749828881 stripped
 MonoBehaviour:
@@ -3777,7 +3889,7 @@ PrefabInstance:
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1538686202}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: runnerPrefab
       value: 
@@ -3811,6 +3923,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorTransform
+      value: 
+      objectReference: {fileID: 1741541008}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorRenderer
       value: 
       objectReference: {fileID: 1814857270}
@@ -3818,6 +3934,10 @@ PrefabInstance:
       propertyPath: rightDoorBonusType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorTransform
+      value: 
+      objectReference: {fileID: 1020267162}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorBonusAmount
       value: 20
@@ -4163,7 +4283,7 @@ PrefabInstance:
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: leftDoorText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1664774840}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: LeftdoorSprite
       value: 
@@ -4189,6 +4309,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 932279075}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: leftDoorTransform
+      value: 
+      objectReference: {fileID: 932279074}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorRenderer
       value: 
       objectReference: {fileID: 99072926}
@@ -4196,6 +4320,10 @@ PrefabInstance:
       propertyPath: rightDoorBonusType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
+      propertyPath: rightDoorTransform
+      value: 
+      objectReference: {fileID: 1749828880}
     - target: {fileID: 6510039393048504493, guid: f2294368c25d640489071a364253b859, type: 3}
       propertyPath: rightDoorBonusAmount
       value: 1
@@ -4638,6 +4766,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1509564326}
+    - target: {fileID: 6816394193884820667, guid: 12d6e17633ec6f245899f52514ac38e8, type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6816394193884820667, guid: 12d6e17633ec6f245899f52514ac38e8, type: 3}
       propertyPath: roadWidth
       value: 20
