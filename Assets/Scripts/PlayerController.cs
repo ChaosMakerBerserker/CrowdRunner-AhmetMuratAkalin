@@ -3,13 +3,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("References")]
-    public CrowdSystem crowdSystem;   
-    public GameManager gameManager;   
+    public CrowdSystem crowdSystem;   // CrowdSystem referansı
+
+    public GameManager gameManager; // GameManager referansı
 
     [Header("Movement Settings")]
     public float speed = 10f;
+    public float turnSpeed = 10f;
     public float slideSpeed = 5f;
-    public float roadWidth = 20f;
+    public float roadWidth = 10f;
 
     private Vector3 clickedScreenPosition;
     private Vector3 clickedPlayerPosition;
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour
         targetPositionX = transform.position;
         initialPosition = transform.position;
 
+        // Başlangıçta runnerları güncelle
         if(crowdSystem != null)
             crowdSystem.AddCrowd(crowdSystem.crowdCount - 1);
     }
@@ -37,10 +40,16 @@ public class PlayerController : MonoBehaviour
     {
         if (crowdSystem == null) return;
 
+        Vector3 targetPos = crowdSystem.GetTargetPosition();
+        Vector3 direction = targetPos - transform.position;
+        direction.y = 0;
+
+        if (direction.sqrMagnitude > 0.01f)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
+
         float moveZ = speed * Time.deltaTime;
         float newZ = transform.position.z + moveZ;
 
-        // Rotation satırını tamamen kaldırdık
         transform.position = new Vector3(targetPositionX.x, transform.position.y, newZ);
     }
 
