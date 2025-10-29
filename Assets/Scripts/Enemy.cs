@@ -1,30 +1,91 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private int enemyStrength = 5; // Kaç kişiyi yok eder
+    [Header("AI Settings")]
+    public Transform player; // Player objesi (Inspector'da ata)
+    public float chaseSpeed = 3f; // Takip hızı
+    public float detectionRange = 10f; // Algılama mesafesi
 
-    private void OnTriggerEnter(Collider other)
+    [Header("Death")]
+    public GameObject deathEffect; // Ölüm efekti (opsiyonel, particle prefab)
+
+    private NavMeshAgent agent;
+
+    void Start()
     {
-        PlayerController player = other.GetComponent<PlayerController>();
-        if (player != null && player.crowdSystem != null)
+        agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
         {
-            //player.crowdSystem.AddCrowd(-enemyStrength);
-            //Destroy(gameObject); // Düşman yok oldu
+            Debug.LogError("Enemy: NavMesh Agent eksik! Add Component > Navigation > NavMesh Agent ekle.");
+            enabled = false; // Script'i devre dışı bırak
             return;
         }
-        
-        // Eğer Runner çarparsa
-        if (other.CompareTag("Runner"))
-        {
-            CrowdSystem crowd = Object.FindFirstObjectByType<CrowdSystem>();
-            if (crowd != null)
-            {
-                //crowd.AddCrowd(-1); // 1 runner eksilt
-            }
+        agent.speed = chaseSpeed;
+        agent.areaMask = 1; // Walkable alan
 
-            //Destroy(other.gameObject); // Runner yok olur
-            //Destroy(gameObject);       // Enemy de yok olur
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform; // Otomatik bul
+        }
+
+        // Agent'i NavMesh'e yerleştir (ana hata çözümü)
+        PlaceOnNavMesh();
+    }
+
+    void PlaceOnNavMesh()
+    {
+        if (agent == null) return; // Null kontrolü (satır 72 hatası için)
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 10f, NavMesh.AllAreas))
+        {
+            agent.Warp(hit.position); // NavMesh'e warp et
+            transform.position = hit.position; // Pozisyonu güncelle
+            Debug.Log("Enemy: NavMesh'e başarıyla yerleştirildi. Pozisyon: " + hit.position);
+        }
+        else
+        {
+            Debug.LogError("Enemy: NavMesh bake hatası! NavMesh Surface'te Bake et veya pozisyonu değiştir.");
+            // Fallback: Pozisyonu varsayılan NavMesh'e ayarla
+            transform.position = new Vector3(0, 0, 0); // Sahne başlangıcı
+            // Tekrar dene
+            NavMesh.SamplePosition(transform.position, out hit, 10f, NavMesh.AllAreas);
+            if (hit.hit) agent.Warp(hit.position);
+        }
+    }
+
+    void Update()
+    {
+        if (player == null || agent == null || !agent.isOnNavMesh) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= detectionRange)
+        {
+            agent.SetDestination(player.position); // Takip et
+        }
+        else
+        {
+            agent.ResetPath(); // Dur
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Runner"))
+        {
+            Debug.Log("Enemy: Runner ile çarpıştı, her ikisi de yok ediliyor!");
+
+            // Runner'ı yok et
+            Destroy(collision.gameObject);
+
+            // Ölüm efekti (opsiyonel)
+            if (deathEffect != null)
+                Instantiate(deathEffect, transform.position, Quaternion.identity);
+
+            // Düşmanı yok et
+            Destroy(gameObject);
         }
     }
 }

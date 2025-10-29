@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(gameManager != null && gameManager.gameEnded) return;
+        if (gameManager != null && gameManager.gameEnded) return;
         HandleSlide();
         HandleMovement();
     }
@@ -71,5 +71,15 @@ public class PlayerController : MonoBehaviour
         }
 
         targetPositionX.x = Mathf.Lerp(transform.position.x, targetPositionX.x, 0.2f);
+    }
+
+    // Düşmanla çarpışma – düşmanı yok et (runner/enemy mantığına uyumlu)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Player: Düşmana çarptı, düşman yok ediliyor!");
+            Destroy(collision.gameObject); // Düşmanı yok et
+        }
     }
 }

@@ -1254,8 +1254,6 @@ GameObject:
   - component: {fileID: 6025761683737135636}
   - component: {fileID: 2954616158105293067}
   - component: {fileID: 432030474976244188}
-  - component: {fileID: 7554503946069192124}
-  - component: {fileID: 2248047873485404173}
   m_Layer: 8
   m_Name: Runner
   m_TagString: Runner
@@ -1324,56 +1322,6 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   target: {fileID: 0}
   speed: 5
---- !u!54 &7554503946069192124
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6400775054438666414}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 84
-  m_CollisionDetection: 2
---- !u!136 &2248047873485404173
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6400775054438666414}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 80
-  m_Height: 400
-  m_Direction: 1
-  m_Center: {x: 0, y: 100, z: 0}
 --- !u!1 &6519833298914149514
 GameObject:
   m_ObjectHideFlags: 0
